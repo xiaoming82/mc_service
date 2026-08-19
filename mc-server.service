@@ -1,23 +1,19 @@
 [Unit]
 Description=Minecraft Server Service
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple
 User=root
 WorkingDirectory=/home/user/minecraft
 
-# 启动脚本
 ExecStart=/home/user/minecraft/run.sh
 
-# 崩溃后自动重启，延迟 5 秒
-Restart=always
+Restart=on-failure
 RestartSec=5
 
-# 【关键优化】给服务器充足的时间来保存世界并优雅退出（防止回档）
 TimeoutStopSec=120
-
-# 【可选优化】限制最大文件打开数（MC 插件多时文件句柄需求大）
 LimitNOFILE=65535
 
 [Install]
